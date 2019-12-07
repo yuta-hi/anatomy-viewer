@@ -149,6 +149,12 @@ class AnatomyViewerApp(QtWidgets.QMainWindow):
         self.viewerUncert.windowSignal[float].connect(self.addUncertWindow)
         self.viewerUncert.levelSignal[float].connect(self.addUncertLevel)
 
+        self.viewerImage.sliceSignal[float].connect(self.addSliceIndex)
+        self.viewerLabel.sliceSignal[float].connect(self.addSliceIndex)
+        self.viewerLabelOverlay.sliceSignal[float].connect(self.addSliceIndex)
+        self.viewerUncert.sliceSignal[float].connect(self.addSliceIndex)
+        self.viewerUncertOverlay.sliceSignal[float].connect(self.addSliceIndex)
+
         self.ui.comboBoxSliceAxis.activated[str].connect(self.setSliceAxis)
 
     def setupTextBrowser(self):
@@ -267,6 +273,13 @@ class AnatomyViewerApp(QtWidgets.QMainWindow):
     def setSliceIndex(self, value):
         self.sliceIndex = value
         self.ui.sliderSliceIndex.setValue(value)
+        self.update()
+
+    def addSliceIndex(self, value):
+        nSlices = self.imageVolume.shape[mapSliceAxis[self.sliceAxis]]
+        self.sliceIndex = np.clip(self.sliceIndex + int(value), 0, nSlices - 1)
+        self.ui.sliderSliceIndex.setValue(self.sliceIndex)
+        self.ui.spinBoxSliceIndex.setValue(self.sliceIndex)
         self.update()
 
     def slideSliceIndex(self, value):

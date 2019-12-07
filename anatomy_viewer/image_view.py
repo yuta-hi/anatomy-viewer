@@ -12,6 +12,7 @@ class ImageView(QtWidgets.QGraphicsView):
 
     windowSignal = pyqtSignal(float)
     levelSignal  = pyqtSignal(float)
+    sliceSignal  = pyqtSignal(float)
 
     def __init__(self, *argv, **keywords):
         super().__init__(*argv, **keywords)
@@ -135,12 +136,18 @@ class ImageView(QtWidgets.QGraphicsView):
         if not self.hasImage():
             return
 
+        # update slice index
+        if event.angleDelta().x() > 0:
+            self.sliceSignal.emit( -1 )
+        elif event.angleDelta().x() < 0:
+            self.sliceSignal.emit( +1 )
+
         # update zoom ratio
+        factor = 1.0
         if event.angleDelta().y() > 0:
             factor = 1.25
             self.zoom += 1
-
-        else:
+        elif event.angleDelta().y() < 0:
             factor = 0.8
             self.zoom -= 1
 
