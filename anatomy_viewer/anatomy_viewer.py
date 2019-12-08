@@ -91,46 +91,46 @@ class AnatomyViewerApp(QtWidgets.QMainWindow):
         _margins = (0,0,0,0)
 
         # image
-        self.viewerImage = ImageView(self.ui.graphicsViewImage)
-        self.ui.viewerImage_layout = QtWidgets.QHBoxLayout()
-        self.ui.viewerImage_layout.addWidget(self.viewerImage)
-        self.ui.viewerImage_layout.setContentsMargins(*_margins)
-        self.ui.graphicsViewImage.setLayout(self.ui.viewerImage_layout)
+        self.viewImage = ImageView(self.ui.graphicsViewImage)
+        self.ui.viewImage_layout = QtWidgets.QHBoxLayout()
+        self.ui.viewImage_layout.addWidget(self.viewImage)
+        self.ui.viewImage_layout.setContentsMargins(*_margins)
+        self.ui.graphicsViewImage.setLayout(self.ui.viewImage_layout)
 
         # label
-        self.viewerLabel = ImageView(self.ui.graphicsViewLabel)
-        self.ui.viewerLabel_layout = QtWidgets.QHBoxLayout()
-        self.ui.viewerLabel_layout.addWidget(self.viewerLabel)
-        self.ui.viewerLabel_layout.setContentsMargins(*_margins)
-        self.ui.graphicsViewLabel.setLayout(self.ui.viewerLabel_layout)
+        self.viewLabel = ImageView(self.ui.graphicsViewLabel)
+        self.ui.viewLabel_layout = QtWidgets.QHBoxLayout()
+        self.ui.viewLabel_layout.addWidget(self.viewLabel)
+        self.ui.viewLabel_layout.setContentsMargins(*_margins)
+        self.ui.graphicsViewLabel.setLayout(self.ui.viewLabel_layout)
 
         # label overlay
-        self.viewerLabelOverlay = ImageView(self.ui.graphicsViewLabelOverlay)
-        self.ui.viewerLabelOverlay_layout = QtWidgets.QHBoxLayout()
-        self.ui.viewerLabelOverlay_layout.addWidget(self.viewerLabelOverlay)
-        self.ui.viewerLabelOverlay_layout.setContentsMargins(*_margins)
-        self.ui.graphicsViewLabelOverlay.setLayout(self.ui.viewerLabelOverlay_layout)
+        self.viewLabelOverlay = ImageView(self.ui.graphicsViewLabelOverlay)
+        self.ui.viewLabelOverlay_layout = QtWidgets.QHBoxLayout()
+        self.ui.viewLabelOverlay_layout.addWidget(self.viewLabelOverlay)
+        self.ui.viewLabelOverlay_layout.setContentsMargins(*_margins)
+        self.ui.graphicsViewLabelOverlay.setLayout(self.ui.viewLabelOverlay_layout)
 
         # uncertainty
-        self.viewerUncert = ImageView(self.ui.graphicsViewUncert)
-        self.ui.viewerUncert_layout = QtWidgets.QHBoxLayout()
-        self.ui.viewerUncert_layout.addWidget(self.viewerUncert)
-        self.ui.viewerUncert_layout.setContentsMargins(*_margins)
-        self.ui.graphicsViewUncert.setLayout(self.ui.viewerUncert_layout)
+        self.viewUncert = ImageView(self.ui.graphicsViewUncert)
+        self.ui.viewUncert_layout = QtWidgets.QHBoxLayout()
+        self.ui.viewUncert_layout.addWidget(self.viewUncert)
+        self.ui.viewUncert_layout.setContentsMargins(*_margins)
+        self.ui.graphicsViewUncert.setLayout(self.ui.viewUncert_layout)
 
         # uncertainty overlay
-        self.viewerUncertOverlay = ImageView(self.ui.graphicsViewUncertOverlay)
-        self.ui.viewerUncertOverlay_layout = QtWidgets.QHBoxLayout()
-        self.ui.viewerUncertOverlay_layout.addWidget(self.viewerUncertOverlay)
-        self.ui.viewerUncertOverlay_layout.setContentsMargins(*_margins)
-        self.ui.graphicsViewUncertOverlay.setLayout(self.ui.viewerUncertOverlay_layout)
+        self.viewUncertOverlay = ImageView(self.ui.graphicsViewUncertOverlay)
+        self.ui.viewUncertOverlay_layout = QtWidgets.QHBoxLayout()
+        self.ui.viewUncertOverlay_layout.addWidget(self.viewUncertOverlay)
+        self.ui.viewUncertOverlay_layout.setContentsMargins(*_margins)
+        self.ui.graphicsViewUncertOverlay.setLayout(self.ui.viewUncertOverlay_layout)
 
         # synchronization
-        self.viewerImage.setSyncCenter([self.viewerLabel, self.viewerLabelOverlay, self.viewerUncert, self.viewerUncertOverlay])
-        self.viewerLabel.setSyncCenter([self.viewerImage, self.viewerLabelOverlay, self.viewerUncert, self.viewerUncertOverlay])
-        self.viewerLabelOverlay.setSyncCenter([self.viewerImage, self.viewerLabel, self.viewerUncert, self.viewerUncertOverlay])
-        self.viewerUncert.setSyncCenter([self.viewerImage, self.viewerLabel, self.viewerLabelOverlay, self.viewerUncertOverlay])
-        self.viewerUncertOverlay.setSyncCenter([self.viewerImage, self.viewerLabel, self.viewerLabelOverlay, self.viewerUncert])
+        self.viewImage.setSyncCenter([self.viewLabel, self.viewLabelOverlay, self.viewUncert, self.viewUncertOverlay])
+        self.viewLabel.setSyncCenter([self.viewImage, self.viewLabelOverlay, self.viewUncert, self.viewUncertOverlay])
+        self.viewLabelOverlay.setSyncCenter([self.viewImage, self.viewLabel, self.viewUncert, self.viewUncertOverlay])
+        self.viewUncert.setSyncCenter([self.viewImage, self.viewLabel, self.viewLabelOverlay, self.viewUncertOverlay])
+        self.viewUncertOverlay.setSyncCenter([self.viewImage, self.viewLabel, self.viewLabelOverlay, self.viewUncert])
 
         # connection
         self.ui.spinBoxSliceIndex.valueChanged[int].connect(self.setSliceIndex)
@@ -144,16 +144,16 @@ class AnatomyViewerApp(QtWidgets.QMainWindow):
         self.ui.doubleSpinBoxImageAlpha.valueChanged[float].connect(self.setImageAlpha)
         self.ui.doubleSpinBoxUncertAlpha.valueChanged[float].connect(self.setUncertAlpha)
 
-        self.viewerImage.windowSignal[float].connect(self.addImageWindow)
-        self.viewerImage.levelSignal[float].connect(self.addImageLevel)
-        self.viewerUncert.windowSignal[float].connect(self.addUncertWindow)
-        self.viewerUncert.levelSignal[float].connect(self.addUncertLevel)
+        self.viewImage.windowSignal[float].connect(self.addImageWindow)
+        self.viewImage.levelSignal[float].connect(self.addImageLevel)
+        self.viewUncert.windowSignal[float].connect(self.addUncertWindow)
+        self.viewUncert.levelSignal[float].connect(self.addUncertLevel)
 
-        self.viewerImage.sliceSignal[float].connect(self.addSliceIndex)
-        self.viewerLabel.sliceSignal[float].connect(self.addSliceIndex)
-        self.viewerLabelOverlay.sliceSignal[float].connect(self.addSliceIndex)
-        self.viewerUncert.sliceSignal[float].connect(self.addSliceIndex)
-        self.viewerUncertOverlay.sliceSignal[float].connect(self.addSliceIndex)
+        self.viewImage.sliceSignal[float].connect(self.addSliceIndex)
+        self.viewLabel.sliceSignal[float].connect(self.addSliceIndex)
+        self.viewLabelOverlay.sliceSignal[float].connect(self.addSliceIndex)
+        self.viewUncert.sliceSignal[float].connect(self.addSliceIndex)
+        self.viewUncertOverlay.sliceSignal[float].connect(self.addSliceIndex)
 
         self.ui.comboBoxSliceAxis.activated[str].connect(self.setSliceAxis)
 
@@ -224,11 +224,11 @@ class AnatomyViewerApp(QtWidgets.QMainWindow):
         self.update()
 
         # re-fit
-        self.viewerImage.fitInView()
-        self.viewerLabel.fitInView()
-        self.viewerLabelOverlay.fitInView()
-        self.viewerUncert.fitInView()
-        self.viewerUncertOverlay.fitInView()
+        self.viewImage.fitInView()
+        self.viewLabel.fitInView()
+        self.viewLabelOverlay.fitInView()
+        self.viewUncert.fitInView()
+        self.viewUncertOverlay.fitInView()
 
     def setImageWindow(self, value):
         self.imageWindowLevel[0] = value
@@ -329,8 +329,8 @@ class AnatomyViewerApp(QtWidgets.QMainWindow):
         uncertOverlaySlice = cv2.addWeighted(imageSlice, 1.0 - self.uncertAlpha, uncertSlice, self.uncertAlpha, 0)
 
         # send to view
-        self.viewerImage.setImage(imageSlice)
-        self.viewerLabel.setImage(labelSlice)
-        self.viewerLabelOverlay.setImage(labelOverlaySlice)
-        self.viewerUncert.setImage(uncertSlice)
-        self.viewerUncertOverlay.setImage(uncertOverlaySlice)
+        self.viewImage.setImage(imageSlice)
+        self.viewLabel.setImage(labelSlice)
+        self.viewLabelOverlay.setImage(labelOverlaySlice)
+        self.viewUncert.setImage(uncertSlice)
+        self.viewUncertOverlay.setImage(uncertOverlaySlice)
