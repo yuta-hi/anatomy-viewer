@@ -14,7 +14,7 @@ This is a simple viewer to display the 3D segmentation result of Bayesian CNNs.
 ```bash
 git clone https://github.com/yuta-hi/anatomy-viewer
 cd anatomy_viewer
-python setup.py install
+pip install .
 ```
 
 ## Usage
