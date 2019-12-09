@@ -58,9 +58,3 @@ def clim(x, param, scale=255.):
     assert isinstance(param, (list, tuple))
     norm = (x.astype(np.float32) - param[0]) / (param[1] - param[0])
     return np.clip(norm, 0.0, 1.0, out=norm) * scale
-
-
-def resize2d(x, spacing):
-    return cv2.resize(x, None,
-                      fx=1./spacing[0], fy=1./spacing[1],
-                      interpolation=cv2.INTER_NEAREST)

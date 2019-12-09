@@ -8,7 +8,7 @@ import six
 
 from .image_view import ImageView
 from .anatomy_viewer_ui import Ui_AnatomyViewer
-from .utils import lut, clim, resize2d
+from .utils import lut, clim
 
 imageStatistics = {
     'mean': lambda x: np.mean(x),
@@ -306,12 +306,6 @@ class AnatomyViewerApp(QtWidgets.QMainWindow):
             uncertSlice = self.uncertVolume[self.sliceIndex,:,::-1].T
             spacing = (self.volumeSpacing[2], self.volumeSpacing[1])
 
-        # resize
-        if spacing[0] != spacing[1]:
-            imageSlice  = resize2d(imageSlice, spacing)
-            labelSlice  = resize2d(labelSlice, spacing)
-            uncertSlice = resize2d(uncertSlice, spacing)
-
         # image
         imageWindow, imageLevel = self.imageWindowLevel
         imageSlice = clim(imageSlice, (imageLevel - imageWindow/2., imageLevel + imageWindow/2.)).astype(np.uint8)
@@ -329,8 +323,8 @@ class AnatomyViewerApp(QtWidgets.QMainWindow):
         uncertOverlaySlice = cv2.addWeighted(imageSlice, 1.0 - self.uncertAlpha, uncertSlice, self.uncertAlpha, 0)
 
         # send to view
-        self.viewImage.setImage(imageSlice)
-        self.viewLabel.setImage(labelSlice)
-        self.viewLabelOverlay.setImage(labelOverlaySlice)
-        self.viewUncert.setImage(uncertSlice)
-        self.viewUncertOverlay.setImage(uncertOverlaySlice)
+        self.viewImage.setImage(imageSlice, spacing)
+        self.viewLabel.setImage(labelSlice, spacing)
+        self.viewLabelOverlay.setImage(labelOverlaySlice, spacing)
+        self.viewUncert.setImage(uncertSlice, spacing)
+        self.viewUncertOverlay.setImage(uncertOverlaySlice, spacing)

@@ -43,6 +43,7 @@ class ImageView(QtWidgets.QGraphicsView):
         )
 
         self.image = image
+        self.spacing = None
         self.scene = scene
         self.zoom = None
 
@@ -52,14 +53,21 @@ class ImageView(QtWidgets.QGraphicsView):
     def hasImage(self):
         return not self.image.pixmap().isNull()
 
-    def setImage(self, image):
+    def setImage(self, image, spacing=None):
 
         if isinstance(image, np.ndarray):
             qpixmap = numpy_to_qpixmap(image)
 
+        if spacing is None:
+            spacing = (1, 1)
+        self.spacing = spacing
+
         if qpixmap and not qpixmap.isNull():
             self.setDragMode(QtWidgets.QGraphicsView.ScrollHandDrag)
-            self.image.setPixmap(qpixmap)
+            self.image.setPixmap(qpixmap.scaled(qpixmap.width()  * self.spacing[1],
+                                                qpixmap.height() * self.spacing[0],
+                                                QtCore.Qt.IgnoreAspectRatio,
+                                                QtCore.Qt.FastTransformation))
         else:
             self.setDragMode(QtWidgets.QGraphicsView.NoDrag)
             self.image.setPixmap(QtGui.QPixmap())
